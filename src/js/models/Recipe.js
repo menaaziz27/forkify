@@ -16,7 +16,7 @@ export default class Recipe {
             // console.log(res);
         } catch (err) {
             // console.log(err);
-            alert('Something went wrong :(');
+            // alert('Something went wrong :(');
         }
     }
 
@@ -29,6 +29,27 @@ export default class Recipe {
 
     calcServing() {
         this.servings = 4;
+    }
+
+    parseIngredients() {
+        const unitlong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
+        const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+
+        let newIngredients = this.ingredients.map(el => {
+            // 1- unifrom units
+            let ingredient = el.toLowerCase();
+            unitlong.forEach((unit, i) => {
+                ingredient = ingredient.replace(unit, unitShort[i]);
+            });
+
+            // 2- Remove parentheses
+            ingredient = ingredient.replace(/[{()}]/g, '');
+            // 3- parse ingredients into count, unit and ingredient
+
+            return ingredient;
+        });
+
+        this.ingredients = newIngredients;
     }
 }
 

@@ -8,7 +8,10 @@ const state = {};
 const controlSearch = async () => {
 
     // 1- get query from view
-    const query = searchView.getInput();
+    // const query = searchView.getInput();
+
+    // TESTING
+    const query = 'pizza';
 
     if (query) {
 
@@ -20,13 +23,18 @@ const controlSearch = async () => {
         searchView.clearResults();
         loader(elements.searchRes);
 
+        try {
 
-        // 4- search for recipe
-        await state.search.getResults();
+            // 4- search for recipe
+            await state.search.getResults();
 
-        // 5- Render result on UI 
-        removeLoader();
-        searchView.renderResults(state.search.result);
+            // 5- Render result on UI 
+            removeLoader();
+            searchView.renderResults(state.search.result);
+        } catch (err) {
+            alert('Something went wrong with search ...');
+            removeLoader();
+        }
     }
 }
 
@@ -34,6 +42,13 @@ elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
     controlSearch();
 });
+
+// TESTING
+window.addEventListener('load', e => {
+    e.preventDefault();
+    controlSearch();
+});
+
 
 // Event delegation 
 elements.searchResPages.addEventListener('click', e => {
@@ -59,17 +74,25 @@ const controlRecipe = async () => {
 
         // create a new recipe obj 
         state.recipe = new Recipe(id);
-        // get recipe data 
-        try {
 
+        //TESTING
+        window.r = state.recipe;
+
+        try {
+            // get recipe data 
             await state.recipe.getRecipe();
+
             // calculate serving and time 
             state.recipe.calcTime();
             state.recipe.calcServing();
+
             // render recipe 
             console.log(state.recipe);
+
         } catch (err) {
+
             alert('Error processing recipe.');
+
         }
     }
 }
