@@ -48,6 +48,13 @@ elements.searchResPages.addEventListener('click', e => {
 })
 
 
-const r = new Recipe('f852ec');
-r.getRecipe();
-console.log(r);
+const controlRecipe = () => {
+    const id = window.location.hash.replace('#', ''); // this returns a number of type string 
+    console.log(id);
+}
+
+window.addEventListener('hashchange', controlRecipe);
+
+// const r = new Recipe('f852ec');
+// r.getRecipe();
+// console.log(r);
