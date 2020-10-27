@@ -43,7 +43,7 @@ export default class Recipe {
             });
 
             // 2- Remove parentheses
-            ingredient = ingredient.replace(/[{()}]/g, '');
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
             // 3- parse ingredients into count, unit and ingredient
 
             return ingredient;
