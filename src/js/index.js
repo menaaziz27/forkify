@@ -33,3 +33,15 @@ elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
     controlSearch();
 });
+
+// Event delegation 
+elements.searchResPages.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-inline'); // finds the closest element with btn-inline class and select it 
+    if (btn) {
+        const goToPage = parseInt(btn.dataset.goto, 10); // base 10
+        searchView.clearResults();
+        searchView.renderResults(state.search.result, goToPage);
+        // console.log(goToPage);
+    }
+
+})
