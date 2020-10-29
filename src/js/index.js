@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { elements, loader, removeLoader } from './views/base';
 
 const state = {};
@@ -56,42 +57,38 @@ elements.searchResPages.addEventListener('click', e => {
 
 const controlRecipe = async () => {
 
-    const id = window.location.hash.replace('#', ''); // this returns a number of type string 
-    console.log(id);
+    // Get ID from url
+    const id = window.location.hash.replace('#', ''); // returns number in string type
 
     if (id) {
+        // Prepare UI for changes
+        recipeView.clearRecipe();
+        loader(elements.recipe);
 
-        // prepare UI for changes
-
-        // create a new recipe obj 
+        // Create new recipe object
         state.recipe = new Recipe(id);
 
         try {
-            // get recipe data 
+            // Get recipe data and parse ingredients
             await state.recipe.getRecipe();
             state.recipe.parseIngredients();
-            // calculate serving and time 
+
+            // Calculate servings and time
             state.recipe.calcTime();
             state.recipe.calcServing();
 
-            // render recipe 
-            console.log(state.recipe);
+            // Render recipe
+            removeLoader();
+            recipeView.renderRecipe(state.recipe);
 
         } catch (err) {
-
-            alert('Error processing recipe.');
-
+            console.log(err);
+            alert('Error processing recipe!');
         }
     }
 }
 
-window.addEventListener('hashchange', controlRecipe);
+// window.addEventListener('hashchange', controlRecipe);
 
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
-
-
-
-
-// const r = new Recipe('f852ec');
-// r.getRecipe();
-// console.log(r);
