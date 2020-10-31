@@ -26,6 +26,6 @@ export const loader = parent => {
 
 export const removeLoader = () => {
     const loader = document.querySelector(`.${elementStrings.loader}`);
-    loader.remove();
-    // if (loader) loader.parentNode.removeChild(loader);
+    // loader.remove();
+    if (loader) loader.parentNode.removeChild(loader);
 }
