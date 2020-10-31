@@ -9,7 +9,6 @@ import * as likeView from './views/likeView';
 import { elements, loader, removeLoader } from './views/base';
 
 const state = {};
-window.state = state;
 
 const controlSearch = async () => {
 
@@ -39,7 +38,7 @@ const controlSearch = async () => {
             removeLoader();
         }
     }
-}
+};
 
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -49,15 +48,14 @@ elements.searchForm.addEventListener('submit', e => {
 
 // Event delegation 
 elements.searchResPages.addEventListener('click', e => {
-    const btn = e.target.closest('.btn-inline'); // finds the closest element with btn-inline class and select it 
+    const btn = e.target.closest('.btn-inline');
     if (btn) {
-        const goToPage = parseInt(btn.dataset.goto, 10); // base 10
+        const goToPage = parseInt(btn.dataset.goto, 10);
         searchView.clearResults();
         searchView.renderResults(state.search.result, goToPage);
-        // console.log(goToPage);
     }
 
-})
+});
 
 
 const controlRecipe = async () => {
@@ -97,7 +95,7 @@ const controlRecipe = async () => {
             alert('Error processing recipe!');
         }
     }
-}
+};
 
 // window.addEventListener('hashchange', controlRecipe);
 
@@ -127,10 +125,11 @@ const controlList = () => {
         listView.renderItem(item);
     })
 
-}
+};
 
 // Like controller
 const controlLike = () => {
+
     if (!state.likes) state.likes = new Likes();
     const currentID = state.recipe.id;
 
@@ -158,7 +157,7 @@ const controlLike = () => {
     }
     likeView.toggleLikesMenu(state.likes.getNumLikes());
 
-}
+};
 
 
 // handle update and delete list item events 
@@ -175,9 +174,10 @@ elements.shopping.addEventListener('click', e => {
         const val = parseFloat(e.target.value, 10);
         state.list.updateCount(id, val);
     }
-})
+});
 
 elements.recipe.addEventListener('click', e => {
+
     if (e.target.matches('btn-decrease, .btn-decrease *')) {
         // Decrease button is clicked 
         if (state.recipe.servings > 1) {
@@ -197,7 +197,3 @@ elements.recipe.addEventListener('click', e => {
 
 });
 
-
-
-
-window.l = new List();
