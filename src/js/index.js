@@ -103,6 +103,20 @@ const controlRecipe = async () => {
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+window.addEventListener('load', () => {
+
+    state.likes = new Likes();
+
+    // restore likes
+    state.likes.readStorage();
+
+    // Toggle Like Menu 
+    likeView.toggleLikesMenu(state.likes.getNumLikes());
+
+    // Render the existing likes
+    state.likes.likes.forEach(like => likeView.renderLike(like));
+});
+
 const controlList = () => {
     // Create a new list if there is none yet
     if (!state.list) state.list = new List();
@@ -114,11 +128,6 @@ const controlList = () => {
     })
 
 }
-
-// TODO:
-// TESTING
-state.likes = new Likes();
-likeView.toggleLikesMenu(state.likes.getNumLikes());
 
 // Like controller
 const controlLike = () => {
@@ -187,5 +196,8 @@ elements.recipe.addEventListener('click', e => {
     }
 
 });
+
+
+
 
 window.l = new List();
