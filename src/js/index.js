@@ -87,7 +87,10 @@ const controlRecipe = async () => {
 
             // Render recipe
             removeLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
 
         } catch (err) {
             console.log(err);
@@ -112,6 +115,11 @@ const controlList = () => {
 
 }
 
+// TODO:
+// TESTING
+state.likes = new Likes();
+likeView.toggleLikesMenu(state.likes.getNumLikes());
+
 // Like controller
 const controlLike = () => {
     if (!state.likes) state.likes = new Likes();
@@ -119,7 +127,6 @@ const controlLike = () => {
 
     // User has not liked current recipe 
     if (!state.likes.isLiked(currentID)) {
-        console.log('if');
         // Add like to the state
         const newLike = state.likes.addLike(
             currentID,
@@ -130,18 +137,17 @@ const controlLike = () => {
         // toggle the like button 
         likeView.toggleLikeBtn(true);
         // add like to UI list
-        console.log(state.likes);
+        likeView.renderLike(newLike);
         // User  HAS liked current recipe  
     } else {
-        console.log('else');
         // remove likes from the state
         state.likes.deleteLike(currentID);
         // toggle the like button 
         likeView.toggleLikeBtn(false);
         // remove like from ui
-        console.log(state.likes);
-        console.log('else');
+        likeView.deleteLike(currentID)
     }
+    likeView.toggleLikesMenu(state.likes.getNumLikes());
 
 }
 
